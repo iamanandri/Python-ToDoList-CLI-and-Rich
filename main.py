@@ -10,19 +10,16 @@ def main():
         "0. Quit"
     ]
     task = ""
-    active = False
+    active = True
         
     print("Welcome to the Obligatory To Do List App!")
-    testingString = "test [] string"
-    #print(testingString.find("["))
-    print(testingString)
     
     while(active):    
         ### LISTING OUT ALL THE TASKS
         if(len(todolist)>0):
             print("### HERE ARE YOUR TASKS ###")
             listTask(todolist);
-            print("############################\n")
+            print("###########################\n")
         
         print("What would you like to do?")
         for i in range(len(menulist)):
@@ -74,7 +71,7 @@ def editTask(todolist):
     
 def listTask(listitem):
     for i in range(len(listitem)):
-        print(f"{i+1}. [] {listitem[i]}")
+        print(f"{i+1} {listitem[i]}")
 
 
 if __name__ == "__main__":
