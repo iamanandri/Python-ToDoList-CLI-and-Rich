@@ -18,7 +18,7 @@ def main():
         ### LISTING OUT ALL THE TASKS
         if(len(todolist)>0):
             print("### HERE ARE YOUR TASKS ###")
-            listTask(todolist);
+            listTask(todolist)
             print("###########################\n")
         
         print("What would you like to do?")
