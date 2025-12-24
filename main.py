@@ -17,7 +17,6 @@ def main():
             print("You have no tasks!")
             print("Type \"add [what you need to do]\" (without brackets) to add your first task!")
             print("Example: add Clean up room")
-                  
         print()
         
         command = input()
