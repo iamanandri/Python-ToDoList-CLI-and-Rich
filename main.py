@@ -6,7 +6,7 @@ def main():
     command = ""
 
     print("Welcome to the Obligatory To Do List App!")
-    print("Type: \"add what you need to do\" to add your first task!")
+    print("Type: \"add what you need to do\" to add your first task!\n")
 
     while(active):    
         ### LISTING OUT ALL THE TASKS
@@ -21,6 +21,8 @@ def main():
                 addTask(todolist, command)
             case "remove":
                 removeTask(todolist, int(command.partition(" ")[2])-1)
+            case "finish":
+                finishTask(todolist, int(command.partition(" ")[2])-1)
             case "edit":
                 editTask(todolist, command.partition(" ")[2])
             case "list":
@@ -38,6 +40,9 @@ def addTask(todolist, command):
 
 def removeTask(todolist, taskindex):
     todolist.pop(taskindex)
+
+def finishTask(todolist, taskindex):
+    todolist[taskindex] = f"\033[9m{todolist[taskindex]}\033[0m"
 
 def editTask(todolist, commandArgs):
     taskIndex = int(commandArgs.partition(" ")[0])-1
