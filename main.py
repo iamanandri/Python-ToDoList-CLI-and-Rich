@@ -25,7 +25,7 @@ def main():
             case "add":
                 addTask(todolist, command)
             case "remove":
-                removeTask(todolist, int(command.partition(" ")[2])-1)
+                removeTask(todolist, command.partition(" ")[2])
             case "finish":
                 finishTask(todolist, int(command.partition(" ")[2])-1)
             case "edit":
@@ -41,10 +41,21 @@ def main():
                 
 def addTask(todolist, command):
     task = command.partition(" ")[2].strip("\"")
-    todolist.append(task)
+    tasksToAdd = task.split(", ")
+    for x in tasksToAdd:
+        todolist.append(x)
 
-def removeTask(todolist, taskindex):
-    todolist.pop(taskindex)
+def removeTask(todolist, command):
+    tasksToAdd = command.split(", ")
+    print(tasksToAdd)
+    for x in range(len(tasksToAdd)):
+        todolist[int(tasksToAdd[x])-1] = ""
+        # todolist.pop(int(tasksToAdd[x])-1)
+
+    for x in todolist:
+        if "" in todolist:
+            todolist.remove("")
+        
 
 def finishTask(todolist, taskindex):
     todolist[taskindex] = f"\033[9m{todolist[taskindex]}\033[0m"
