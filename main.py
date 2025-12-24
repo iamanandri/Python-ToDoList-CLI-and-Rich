@@ -6,14 +6,20 @@ def main():
     command = ""
 
     print("Welcome to the Obligatory To Do List App!")
-    print("Type: \"add what you need to do\" to add your first task!\n")
 
     while(active):    
         ### LISTING OUT ALL THE TASKS
+        print()
         if(len(todolist)>0):
             print("### YOUR TASKS ###")
             listTask(todolist)
-
+        else:
+            print("You have no tasks!")
+            print("Type \"add [what you need to do]\" (without brackets) to add your first task!")
+            print("Example: add Clean up room")
+                  
+        print()
+        
         command = input()
 
         match command.partition(" ")[0].lower():
