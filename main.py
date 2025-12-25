@@ -2,6 +2,9 @@ import sys
 
 def main():
     todolist = []
+    roadmap = [
+        "Add pomodoro timer"
+    ]
     active = True
     command = ""
 
@@ -20,6 +23,7 @@ def main():
         print()
         
         command = input()
+        print()
 
         match command.partition(" ")[0].lower():
             case "add":
@@ -27,11 +31,15 @@ def main():
             case "remove":
                 removeTask(todolist, command.partition(" ")[2])
             case "finish":
-                finishTask(todolist, int(command.partition(" ")[2])-1)
+                finishTask(todolist, command.partition(" ")[2])
             case "edit":
                 editTask(todolist, command.partition(" ")[2])
             case "list":
                 listTask(todolist)
+            case "roadmap":
+                print("Plans for the future!")
+                for i in range (len(roadmap)):
+                    print(f"{i+1}. {roadmap[i]}")
             case "quit":
                 print("All in a day's work, good byeeeee ^^")
                 active = False
@@ -50,15 +58,17 @@ def removeTask(todolist, command):
     print(tasksToAdd)
     for x in range(len(tasksToAdd)):
         todolist[int(tasksToAdd[x])-1] = ""
-        # todolist.pop(int(tasksToAdd[x])-1)
 
     for x in todolist:
         if "" in todolist:
             todolist.remove("")
         
 
-def finishTask(todolist, taskindex):
-    todolist[taskindex] = f"\033[9m{todolist[taskindex]}\033[0m"
+def finishTask(todolist, command):
+    tasksToAdd = command.split(", ")
+    print(tasksToAdd)
+    for x in range(len(tasksToAdd)):
+        todolist[int(tasksToAdd[x])-1] = f"\033[9m{todolist[int(tasksToAdd[x])-1]}\033[0m"
 
 def editTask(todolist, commandArgs):
     taskIndex = int(commandArgs.partition(" ")[0])-1
