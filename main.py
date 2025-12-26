@@ -2,12 +2,53 @@ import sys
 
 def main():
     todolist = []
-    roadmap = [
-        "Add pomodoro timer"
-    ]
+    
+    commandArgs = {
+        "todolist": todolist
+    }
     active = True
-    command = ""
-
+    commands = {
+        "add": {
+            "function": addTask,
+            "desc": "Add new tasks",
+            "hasArgs": True
+            },
+        "remove": {
+            "function": removeTask,
+            "desc": "Remove tasks",
+            "hasArgs": True
+            },
+        "cross": {
+            "function": crossTask,
+            "desc": "Cross tasks you've finished",
+            "hasArgs": True
+            },
+        "uncross": {
+            "function": uncrossTask,
+            "desc": "Uncrosses tasks",
+            "hasArgs": True
+            },
+        "edit": {
+            "function": editTask,
+            "desc": "Edit tasks",
+            "hasArgs": True
+            },
+        "list": {
+            "function": listTask,
+            "desc": "List tasks",
+            "hasArgs": True
+            },
+        "roadmap": {
+            "desc": "List out future plans for this tool",
+            "list": [
+                "Add pomodoro timer"
+            ],
+        },
+        "help": {
+            "desc": "List out all commands"
+        }
+    }
+    
     print("Welcome to the Obligatory To Do List App!")
 
     while(active):    
@@ -15,7 +56,7 @@ def main():
         print()
         if(len(todolist)>0):
             print("### YOUR TASKS ###")
-            listTask(todolist)
+            listTask(commandArgs)
         else:
             print("You have no tasks!")
             print("Type \"add [what you need to do]\" (without brackets) to add your first task!")
@@ -23,21 +64,31 @@ def main():
         print()
         
         command = input()
+        commandKey = command.partition(" ")[0].lower()
         print()
-
+        
+        commandArgs.update({
+            "command": command
+        })
+        
+        try:
+            if commandKey in commands:
+                if "function" in commands[commandKey]:
+                    if commands[commandKey]["hasArgs"]:
+                        commands[commandKey]["function"](commandArgs)
+                elif commandKey == "help":
+                    for x, y in commands.items():
+                        print(f"{x}\t{y["desc"]}")
+                elif "list" in commands[commandKey]:
+                    for i in range(len(commands[commandKey]["list"])):
+                        print(f"{i+1}. {commands[commandKey]["list"][i]}")
+            else:
+                print("Command not recognized")
+        except KeyError:
+            print("Key error")
+        
+"""
         match command.partition(" ")[0].lower():
-            case "add":
-                addTask(todolist, command)
-            case "remove":
-                removeTask(todolist, command.partition(" ")[2])
-            case "cross":
-                crossTask(todolist, command.partition(" ")[2])
-            case "uncross":
-                uncrossTask(todolist, command.partition(" ")[2])
-            case "edit":
-                editTask(todolist, command.partition(" ")[2])
-            case "list":
-                listTask(todolist)
             case "roadmap":
                 print("Plans for the future!")
                 for i in range (len(roadmap)):
@@ -48,15 +99,23 @@ def main():
                 sys.exit()
             case default:
                 print("I don't recognize that function?")
-                
-def addTask(todolist, command):
+""" 
+
+def addTask(commandArgs):
+    todolist = commandArgs["todolist"]
+    command = commandArgs["command"]
+    print(type(command))
+    
     task = command.partition(" ")[2].strip("\"")
     tasksToAdd = task.split(", ")
     for x in tasksToAdd:
         todolist.append(x)
 
-def removeTask(todolist, command):
-    tasksToRemove = command.split(", ")
+def removeTask(commandArgs):
+    todolist = commandArgs["todolist"]
+    command = commandArgs["command"]
+    
+    tasksToRemove = command.partition(" ")[2].split(", ")
     for x in range(len(tasksToRemove)):
         todolist[int(tasksToRemove[x])-1] = ""
 
@@ -64,25 +123,35 @@ def removeTask(todolist, command):
         if "" in todolist:
             todolist.remove("")
         
-
-def crossTask(todolist, command):
-    tasksToCross = command.split(", ")
+def crossTask(commandArgs):
+    todolist = commandArgs["todolist"]
+    command = commandArgs["command"]
+    
+    tasksToCross = command.partition(" ")[2].split(", ")
     for x in range(len(tasksToCross)):
         todolist[int(tasksToCross[x])-1] = f"\033[9m{todolist[int(tasksToCross[x])-1]}\033[0m"
 
-def uncrossTask(todolist, command):
-    taskToUncross = command.split(", ")
+def uncrossTask(commandArgs):
+    todolist = commandArgs["todolist"]
+    command = commandArgs["command"]
+    
+    taskToUncross = command.partition(" ")[2].split(", ")
     for x in range(len(taskToUncross)):
         todolist[int(taskToUncross[x])-1] = todolist[int(taskToUncross[x])-1].replace("\033[9m", "\033[0m")
 
-def editTask(todolist, commandArgs):
-    taskIndex = int(commandArgs.partition(" ")[0])-1
-    newTask = commandArgs.partition(" ")[2]
+def editTask(commandArgs):
+    todolist = commandArgs["todolist"]
+    command = commandArgs["command"]
+    
+    taskIndex = int(command.partition(" ")[2].partition(" ")[0])-1
+    newTask = command.partition(" ")[2]
     todolist[taskIndex] = newTask
 
-def listTask(listitem):
-    for i in range(len(listitem)):
-        print(f"{i+1}. {listitem[i]}")
-
+def listTask(commandArgs):
+    todolist = commandArgs["todolist"]
+    
+    for i in range(len(todolist)):
+        print(f"{i+1}. {todolist[i]}")
+        
 if __name__ == "__main__":
     main()
