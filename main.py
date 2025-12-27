@@ -18,11 +18,16 @@ def main():
             "desc": "Remove tasks",
             "hasArgs": True
             },
+        "clear": {
+            "function": clearTask,
+            "desc": "Clear all the tasks",
+            "hasArgs": True
+        },
         "cross": {
             "function": crossTask,
             "desc": "Cross tasks you've finished",
             "hasArgs": True
-            },
+        },
         "uncross": {
             "function": uncrossTask,
             "desc": "Uncrosses tasks",
@@ -138,6 +143,10 @@ def editTask(commandArgs):
     taskIndex = int(command.partition(" ")[2].partition(" ")[0])-1
     newTask = command.partition(" ")[2]
     todolist[taskIndex] = newTask
+
+def clearTask(commandArgs):
+    todolist = commandArgs["todolist"]
+    todolist.clear()
 
 def listTask(commandArgs):
     todolist = commandArgs["todolist"]
