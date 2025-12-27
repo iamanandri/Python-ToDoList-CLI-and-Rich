@@ -38,6 +38,11 @@ def main():
             "desc": "List tasks",
             "hasArgs": True
             },
+        "quit": {
+            "function": quitApp,
+            "desc": "Quit the program tasks",
+            "hasArgs": False
+            },
         "roadmap": {
             "desc": "List out future plans for this tool",
             "list": [
@@ -76,6 +81,8 @@ def main():
                 if "function" in commands[commandKey]:
                     if commands[commandKey]["hasArgs"]:
                         commands[commandKey]["function"](commandArgs)
+                    else:
+                        commands[commandKey]["function"]()
                 elif commandKey == "help":
                     for x, y in commands.items():
                         print(f"{x}\t{y["desc"]}")
@@ -85,26 +92,11 @@ def main():
             else:
                 print("Command not recognized")
         except KeyError:
-            print("Key error")
-        
-"""
-        match command.partition(" ")[0].lower():
-            case "roadmap":
-                print("Plans for the future!")
-                for i in range (len(roadmap)):
-                    print(f"{i+1}. {roadmap[i]}")
-            case "quit":
-                print("All in a day's work, good byeeeee ^^")
-                active = False
-                sys.exit()
-            case default:
-                print("I don't recognize that function?")
-""" 
+            print(f"Key error: {KeyError.args}")
 
 def addTask(commandArgs):
     todolist = commandArgs["todolist"]
     command = commandArgs["command"]
-    print(type(command))
     
     task = command.partition(" ")[2].strip("\"")
     tasksToAdd = task.split(", ")
@@ -152,6 +144,10 @@ def listTask(commandArgs):
     
     for i in range(len(todolist)):
         print(f"{i+1}. {todolist[i]}")
+        
+def quitApp():
+    print("All in a day's work, good niiiight!")
+    sys.exit()
         
 if __name__ == "__main__":
     main()
