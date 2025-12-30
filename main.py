@@ -66,7 +66,7 @@ def main():
         ### LISTING OUT ALL THE TASKS
         print()
         if(len(todolist)>0):
-            print("[bold magenta]### YOUR TASKS ###[/bold magenta]", ":vampire", locals())
+            print("[bold magenta]### YOUR TASKS ###[/bold magenta]")
             listTask(commandArgs)
         else:
             print("You have no tasks!")
